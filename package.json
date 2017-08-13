@@ -1,0 +1,27 @@
+{
+  "name": "electric-boogaloo",
+  "version": "1.0.0",
+  "description": "Bootcamp two",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrew-rayco/electric-boogaloo.git"
+  },
+  "author": "Andy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrew-rayco/electric-boogaloo/issues"
+  },
+  "homepage": "https://github.com/andrew-rayco/electric-boogaloo#readme",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
