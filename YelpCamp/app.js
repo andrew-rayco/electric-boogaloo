@@ -20,9 +20,11 @@ app.get('/campgrounds', (req, res) => {
 })
 
 app.post('/campgrounds', (req, res) => {
-  // get data from form and add too campgrounds array
-  // redirect back to campgrounds page
-  res.send('hello i am here')
+  var name = req.body.name
+  var image = req.body.image
+  var newCampground = { name, image }
+  campgrounds.push(newCampground)
+  res.redirect('/campgrounds')
 })
 
 app.get('/campgrounds/new', (req, res) => {
