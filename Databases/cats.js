@@ -29,6 +29,18 @@ var Cat = mongoose.model("Cat", catSchema)
 //   }
 // })
 
+Cat.create({
+  name: "Show White",
+  age: 15,
+  temperament: "Bland"
+}, (err, cat) => {
+  if(err) {
+    console.log(err);
+  } else {
+    console.log(cat);
+  }
+})
+
 // retrieve all cats from the db and console.log each one
 
 Cat.find({}, (err, cats) => {
