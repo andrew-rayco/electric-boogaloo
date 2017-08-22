@@ -8,6 +8,28 @@ mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
+// Schema setup
+var campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String
+})
+
+var Campground = mongoose.model('Campground', campgroundSchema)
+
+Campground.create(
+  {
+    name: "Salmon Creek",
+    image: "http://photosforclass.com/download/2123340163"
+  }, function(err, campground) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Newly created campground');
+      console.log(campground);
+    }
+  }
+)
+
 var campgrounds = [
   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
