@@ -16,48 +16,62 @@ var campgroundSchema = new mongoose.Schema({
 
 var Campground = mongoose.model('Campground', campgroundSchema)
 
-Campground.create(
-  {
-    name: "Salmon Creek",
-    image: "http://photosforclass.com/download/2123340163"
-  }, function(err, campground) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Newly created campground');
-      console.log(campground);
-    }
-  }
-)
+// Campground.create(
+//   {
+//     name: "Granite Hill",
+//     image: "http://photosforclass.com/download/7121863467"
+//   }, function(err, campground) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log('Newly created campground');
+//       console.log(campground);
+//     }
+//   }
+// )
 
-var campgrounds = [
-  { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-  { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-  { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-  { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-  { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-  { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-  { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-  { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-  { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-  { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-  { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-  { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" }
-]
+// var campgrounds = [
+//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
+//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
+//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
+//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
+//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
+//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
+//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
+//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
+//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
+//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
+//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
+//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" }
+// ]
 
 app.get('/', (req, res) => {
   res.render('landing')
 })
 
 app.get('/campgrounds', (req, res) => {
-  res.render('campgrounds', { campgrounds })
+  // get all campgrounds from DB
+  Campground.find({}, (err, allCampgrounds) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('campgrounds', { campgrounds: allCampgrounds })
+    }
+  })
 })
 
 app.post('/campgrounds', (req, res) => {
   var name = req.body.name
   var image = req.body.image
   var newCampground = { name, image }
-  campgrounds.push(newCampground)
+  Campground.create(newCampground, (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Woop, created a new campground');
+      console.log(res);
+    }
+  })
   res.redirect('/campgrounds')
 })
 
