@@ -1,7 +1,10 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var mongoose = require('mongoose')
+
 var app = express()
 
+mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
