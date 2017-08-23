@@ -42,6 +42,10 @@ app.get('/blogs', (req, res) => {
   })
 })
 
+app.get('/blogs/new', (req, res) => {
+  res.render('new')
+})
+
 
 
 
