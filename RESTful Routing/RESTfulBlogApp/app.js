@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+var methodOverride = require('method-override')
 
 app = express()
 
@@ -10,6 +11,7 @@ mongoose.connect('mongodb://localhost/restful_blog_app', {useMongoClient: true})
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
 
 // Mongoose model config
 var blogSchema = new mongoose.Schema({
@@ -88,6 +90,21 @@ app.get('/blogs/:id/edit', (req, res) => {
     } else {
       res.render('edit', {blog: blogToEdit})
 
+    }
+  })
+})
+
+
+// UPDATE route
+app.put('/blogs/:id', (req, res) => {
+  var id = req.params.id
+  var newData = req.body.blog;
+  Blog.findByIdAndUpdate(id, newData, (err, updatedBlog) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(updatedBlog);
+      res.redirect('/blogs/' + id)
     }
   })
 })
