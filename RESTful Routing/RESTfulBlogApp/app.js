@@ -78,6 +78,20 @@ app.get('/blogs/:id', (req, res) => {
   })
 })
 
+
+// EDIT route
+app.get('/blogs/:id/edit', (req, res) => {
+  var id = req.params.id
+  Blog.findById(id, (err, blogToEdit) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('edit', {blog: blogToEdit})
+
+    }
+  })
+})
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('server is running on port', PORT);
