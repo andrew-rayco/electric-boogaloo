@@ -42,12 +42,28 @@ app.get('/blogs', (req, res) => {
   })
 })
 
+
+// NEW route
 app.get('/blogs/new', (req, res) => {
   res.render('new')
 })
 
 
-
+// CREATE route
+app.post('/blogs', (req, res) => {
+  var blog = req.body.blog
+  if (blog.image == '') {
+    blog.image = 'http://placehold.it/250x200'
+  }
+  Blog.create(blog, (err, newBlog) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(newBlog);
+      res.redirect('/blogs')
+    }
+  })
+})
 
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
