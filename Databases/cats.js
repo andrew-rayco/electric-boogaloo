@@ -29,6 +29,7 @@ var Cat = mongoose.model("Cat", catSchema)
 //   }
 // })
 
+
 Cat.create({
   name: "Show White",
   age: 15,
@@ -48,7 +49,7 @@ Cat.find({}, (err, cats) => {
     console.log('Oh no, error!');
     console.log(err);
   } else {
-    console.log('All the cats');
+    console.log('=== All the cats ===');
     console.log(cats);
   }
 })
