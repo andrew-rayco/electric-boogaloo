@@ -11,7 +11,8 @@ app.set('view engine', 'ejs')
 // Schema setup
 var campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 })
 
 var Campground = mongoose.model('Campground', campgroundSchema)
@@ -19,7 +20,8 @@ var Campground = mongoose.model('Campground', campgroundSchema)
 // Campground.create(
 //   {
 //     name: "Granite Hill",
-//     image: "http://photosforclass.com/download/7121863467"
+//     image: "http://photosforclass.com/download/7121863467",
+//     description: "This is a huge granite hill. No bathrooms, no water. Beautiful granite."
 //   }, function(err, campground) {
 //     if (err) {
 //       console.log(err);
@@ -30,25 +32,11 @@ var Campground = mongoose.model('Campground', campgroundSchema)
 //   }
 // )
 
-// var campgrounds = [
-//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" },
-//   { name: "Salmon Creek", image: "http://photosforclass.com/download/2123340163" },
-//   { name: "Granite Hill", image: "http://photosforclass.com/download/7121863467" },
-//   { name: "Mountain Goat's Rest", image: "http://photosforclass.com/download/2602356334" }
-// ]
-
 app.get('/', (req, res) => {
   res.render('landing')
 })
 
+// INDEX  - Show all campgrounds
 app.get('/campgrounds', (req, res) => {
   // get all campgrounds from DB
   Campground.find({}, (err, allCampgrounds) => {
@@ -60,6 +48,7 @@ app.get('/campgrounds', (req, res) => {
   })
 })
 
+// CREATE - add new campground to DB
 app.post('/campgrounds', (req, res) => {
   var name = req.body.name
   var image = req.body.image
@@ -75,8 +64,14 @@ app.post('/campgrounds', (req, res) => {
   res.redirect('/campgrounds')
 })
 
+// NEW - show form to create new campground
 app.get('/campgrounds/new', (req, res) => {
   res.render('new')
+})
+
+
+app.get('/campgrounds/:id', (req, res) => {
+  res.send('this will be the show page one day')
 })
 
 var PORT = 3000
