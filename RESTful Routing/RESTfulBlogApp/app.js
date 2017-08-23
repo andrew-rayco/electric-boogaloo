@@ -65,6 +65,19 @@ app.post('/blogs', (req, res) => {
   })
 })
 
+
+// SHOW route
+app.get('/blogs/:id', (req, res) => {
+  var id = req.params.id
+  Blog.findById(id, (err, blog) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('show', {blog})
+    }
+  })
+})
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('server is running on port', PORT);
