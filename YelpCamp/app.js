@@ -43,7 +43,7 @@ app.get('/campgrounds', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render('campgrounds', { campgrounds: allCampgrounds })
+      res.render('index', { campgrounds: allCampgrounds })
     }
   })
 })
@@ -71,7 +71,16 @@ app.get('/campgrounds/new', (req, res) => {
 
 
 app.get('/campgrounds/:id', (req, res) => {
-  res.send('this will be the show page one day')
+  var id = req.params.id
+  Campground.findById(id, (err, selectedCampground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('hooray it works!');
+      console.log(id);
+      res.render('show', {campground: selectedCampground})
+    }
+  })
 })
 
 var PORT = 3000
