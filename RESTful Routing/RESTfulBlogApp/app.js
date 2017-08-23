@@ -109,6 +109,19 @@ app.put('/blogs/:id', (req, res) => {
   })
 })
 
+
+// DELETE route
+app.delete('/blogs/:id', (req, res) => {
+  Blog.findByIdAndRemove(req.params.id, (err) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('successfully deleted!');
+      res.redirect('/blogs')
+    }
+  })
+})
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('server is running on port', PORT);
