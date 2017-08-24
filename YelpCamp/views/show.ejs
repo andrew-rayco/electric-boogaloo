@@ -7,4 +7,8 @@
   <img src="<%= campground.image %>" alt="<%= campground.name %>" />
 </div>
 
+<% campground.comments.forEach(function(comment) { %>
+  <p><%= comment.author %> - <%= comment.text %></p>
+<% }) %>
+
 <% include partials/footer %>
