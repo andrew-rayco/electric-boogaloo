@@ -5,8 +5,10 @@ var mongoose = require('mongoose')
 var Campground = require('./models/campground')
 var seedDB = require('./seeds')
 
+
 var app = express()
 
+mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
 seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
@@ -54,12 +56,12 @@ app.get('/campgrounds/new', (req, res) => {
 // SHOW - Shows more info about one campground
 app.get('/campgrounds/:id', (req, res) => {
   var id = req.params.id
-  Campground.findById(id, (err, selectedCampground) => {
+  Campground.findById(id).populate('comments').exec((err, selectedCampground) => {
     if (err) {
       console.log(err);
     } else {
       console.log('hooray it works!');
-      console.log(id);
+      console.log(selectedCampground);
       res.render('show', {campground: selectedCampground})
     }
   })
