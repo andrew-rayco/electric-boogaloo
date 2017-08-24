@@ -3,13 +3,6 @@ mongoose.connect('mongodb://localhost/blog-demo_2', {useMongoClient: true})
 
 mongoose.Promise = global.Promise
 
-// POST - title, content
-var postSchema = new mongoose.Schema({
-  title: String,
-  content: String
-})
-var Post = mongoose.model('Post', postSchema)
-
 // USER - email, name
 var userSchema = new mongoose.Schema({
   email: String,
