@@ -2,21 +2,18 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
+var Campground = require('./models/campground')
+var seedDB = require('./seeds')
+
 var app = express()
 
+seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
-// Schema setup
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-})
 
-var Campground = mongoose.model('Campground', campgroundSchema)
-
+// Create a new entry in the Campground collection
 // Campground.create(
 //   {
 //     name: "Granite Hill",
