@@ -9,9 +9,18 @@ var User                  = require('./models/user')
 
 mongoose.connect('mongodb://localhost/auth_demo_app', {useMongoClient: true})
 
+
 var app = express()
 
 app.set('view engine', 'ejs')
+
+app.use(require('express-session')({
+  secret: "Be hearty in your approbation and lavish in your praise",
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.get('/', (req, res) => {
   res.render('home')
