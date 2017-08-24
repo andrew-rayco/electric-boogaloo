@@ -2,10 +2,14 @@
 
 <div class="container">
   <h1><%= campground.name %></h1>
-  <a href="/campgrounds">All campgrounds</a>
-  <p><%= campground.description %></p>
+  <p>
+    <a href="/campgrounds">All campgrounds</a>
+  </p>
   <img src="<%= campground.image %>" alt="<%= campground.name %>" />
-  <a href="/campgrounds/<%= campground._id %>/comments/new">Add a comment</a>
+  <p><%= campground.description %></p>
+  <p>
+    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+  </p>
 
   <% campground.comments.forEach(function(comment) { %>
     <p>
