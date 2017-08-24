@@ -1,24 +1,16 @@
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/blog-demo_2', {useMongoClient: true})
 
+var Post = require('./models/post')
+var User = require('./models/user')
+
 mongoose.Promise = global.Promise
 
-// USER - email, name
-var userSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post'
-    }
-  ]
-})
-var User = mongoose.model('User', userSchema)
 
+// Create a post and add it to Bobs user record. Log Bob's resulting data.
 // Post.create({
-//   title: "How to cook the best burger, Part 3",
-//   content: "asdgfasdfgadsfg adsfgadfg"
+//   title: "How to cook the best burger, Part 4",
+//   content: "Gibberish"
 // }, (err, post) => {
 //   User.findOne({email: 'bob@gmail.com'}, (err, foundUser) => {
 //     if (err) {
@@ -36,6 +28,7 @@ var User = mongoose.model('User', userSchema)
 //   })
 // })
 
+// Finds Bob's user record and fully populated post entries. Logs result.
 User.findOne({email: 'bob@gmail.com'}).populate('posts').exec((err, user) => {
   if (err) {
     console.log(err);
@@ -43,9 +36,6 @@ User.findOne({email: 'bob@gmail.com'}).populate('posts').exec((err, user) => {
     console.log(user);
   }
 })
-
-
-
 
 // User.create({
 //   email: 'bob@gmail.com',
