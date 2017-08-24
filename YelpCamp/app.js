@@ -103,12 +103,9 @@ app.post('/campgrounds/:id/comments', (req, res) => {
           res.redirect('/campgrounds/' + campground._id)
         }
       })
-
     }
   })
-
 })
-
 
 
 var PORT = 3000
