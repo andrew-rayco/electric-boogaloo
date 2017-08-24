@@ -2,38 +2,22 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
+var Campground = require('./models/campground')
+var seedDB = require('./seeds')
+
+
 var app = express()
 
+mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
+seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
-// Schema setup
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-})
-
-var Campground = mongoose.model('Campground', campgroundSchema)
-
-// Campground.create(
-//   {
-//     name: "Granite Hill",
-//     image: "http://photosforclass.com/download/7121863467",
-//     description: "This is a huge granite hill. No bathrooms, no water. Beautiful granite."
-//   }, function(err, campground) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log('Newly created campground');
-//       console.log(campground);
-//     }
-//   }
-// )
 
 app.get('/', (req, res) => {
-  res.render('landing')
+  // res.render('landing')
+  res.redirect('/campgrounds')
 })
 
 // INDEX  - Show all campgrounds
@@ -43,7 +27,7 @@ app.get('/campgrounds', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render('index', { campgrounds: allCampgrounds })
+      res.render('campgrounds/index', { campgrounds: allCampgrounds })
     }
   })
 })
@@ -67,22 +51,37 @@ app.post('/campgrounds', (req, res) => {
 
 // NEW - show form to create new campground
 app.get('/campgrounds/new', (req, res) => {
-  res.render('new')
+  res.render('campgrounds/new')
 })
 
-
+// SHOW - Shows more info about one campground
 app.get('/campgrounds/:id', (req, res) => {
   var id = req.params.id
-  Campground.findById(id, (err, selectedCampground) => {
+  Campground.findById(id).populate('comments').exec((err, selectedCampground) => {
     if (err) {
       console.log(err);
     } else {
-      console.log('hooray it works!');
-      console.log(id);
-      res.render('show', {campground: selectedCampground})
+      res.render('campgrounds/show', {campground: selectedCampground})
     }
   })
 })
+
+// ======================================
+// COMMENTS ROUTES
+// ======================================
+
+app.get('/campgrounds/:id/comments/new', (req, res) => {
+  var id = req.params.id
+  Campground.findById(id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('comments/new', {campground})
+    }
+  })
+})
+
+
 
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
