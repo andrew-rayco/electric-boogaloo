@@ -16,7 +16,8 @@ app.set('view engine', 'ejs')
 
 
 app.get('/', (req, res) => {
-  res.render('landing')
+  // res.render('landing')
+  res.redirect('/campgrounds')
 })
 
 // INDEX  - Show all campgrounds
@@ -60,8 +61,6 @@ app.get('/campgrounds/:id', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log('hooray it works!');
-      console.log(selectedCampground);
       res.render('campgrounds/show', {campground: selectedCampground})
     }
   })
@@ -77,7 +76,7 @@ app.get('/campgrounds/:id/comments/new', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render('comments/new', campground)
+      res.render('comments/new', {campground})
     }
   })
 })

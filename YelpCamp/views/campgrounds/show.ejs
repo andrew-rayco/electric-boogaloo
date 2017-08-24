@@ -5,12 +5,13 @@
   <a href="/campgrounds">All campgrounds</a>
   <p><%= campground.description %></p>
   <img src="<%= campground.image %>" alt="<%= campground.name %>" />
+  <a href="/campgrounds/<%= campground._id %>/comments/new">Add a comment</a>
 
-<% campground.comments.forEach(function(comment) { %>
-  <p>
-    <strong><%= comment.author %></strong> - <%= comment.text %>
-  </p>
-<% }) %>
+  <% campground.comments.forEach(function(comment) { %>
+    <p>
+      <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+  <% }) %>
 </div>
 
 <% include ../partials/footer %>
