@@ -13,22 +13,6 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
 
-// Create a new entry in the Campground collection
-// Campground.create(
-//   {
-//     name: "Granite Hill",
-//     image: "http://photosforclass.com/download/7121863467",
-//     description: "This is a huge granite hill. No bathrooms, no water. Beautiful granite."
-//   }, function(err, campground) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log('Newly created campground');
-//       console.log(campground);
-//     }
-//   }
-// )
-
 app.get('/', (req, res) => {
   res.render('landing')
 })
@@ -67,7 +51,7 @@ app.get('/campgrounds/new', (req, res) => {
   res.render('new')
 })
 
-
+// SHOW - Shows more info about one campground
 app.get('/campgrounds/:id', (req, res) => {
   var id = req.params.id
   Campground.findById(id, (err, selectedCampground) => {
