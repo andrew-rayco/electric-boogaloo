@@ -125,6 +125,28 @@ app.post('/campgrounds/:id/comments', (req, res) => {
 })
 
 
+// ======================================
+// AUTH ROUTES
+// ======================================
+// Show the register form
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+// Handle signup logic
+app.post('/register', (req, res) => {
+  var newUser = new User({username: req.body.username})
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err.message)
+      return res.render('register')
+    }
+    passport.authenticate('local')(req, res, () => {
+      res.redirect('/campgrounds')
+    })
+  })
+})
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('YelpCamp is alive on port', PORT)
