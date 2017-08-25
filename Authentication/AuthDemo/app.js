@@ -26,6 +26,7 @@ app.use(passport.session())
 
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+passport.use(new LocalStrategy(User.authenticate()))
 
 // ===================
 // ROUTES
@@ -40,7 +41,6 @@ app.get('/secret', (req, res) => {
 })
 
 // Auth routes
-
 // Show signup form
 app.get('/register', (req, res) => {
   res.render('register')
@@ -58,6 +58,22 @@ app.post('/register', (req, res) => {
     })
   })
 })
+
+// Login routes
+// render login form
+app.get('/login', (req, res) => {
+  res.render('login')
+})
+
+// Handle user login
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/secret',
+  failureRedirect: '/login'
+}), (req, res) => {
+  res.send(req.body)
+})
+
+
 
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
