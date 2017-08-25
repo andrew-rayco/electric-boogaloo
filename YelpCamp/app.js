@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
 var Campground = require('./models/campground')
+var Comment = require('./models/comment')
 var seedDB = require('./seeds')
 
 
@@ -12,6 +13,7 @@ mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
 seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.static(__dirname + '/public'))
 app.set('view engine', 'ejs')
 
 
@@ -81,6 +83,30 @@ app.get('/campgrounds/:id/comments/new', (req, res) => {
   })
 })
 
+app.post('/campgrounds/:id/comments', (req, res) => {
+  // Lookup campground using id
+  var id = req.params.id
+  Campground.findById(id, (err, campground) => {
+    if (err) {
+      console.log(err)
+      res.redirect('/campgrounds')
+    } else {
+      // Create comment
+      var newComment = req.body.comment
+      console.log(newComment)
+      Comment.create(newComment, (err, createdComment) => {
+        if (err) {
+          console.log(err)
+        } else {
+          // Associate comment with campground
+          campground.comments.push(createdComment)
+          campground.save()
+          res.redirect('/campgrounds/' + campground._id)
+        }
+      })
+    }
+  })
+})
 
 
 var PORT = 3000
