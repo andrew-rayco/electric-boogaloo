@@ -88,7 +88,7 @@ app.get('/campgrounds/:id', (req, res) => {
 // COMMENTS ROUTES
 // ======================================
 
-app.get('/campgrounds/:id/comments/new', (req, res) => {
+app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res) => {
   var id = req.params.id
   Campground.findById(id, (err, campground) => {
     if (err) {
@@ -99,7 +99,7 @@ app.get('/campgrounds/:id/comments/new', (req, res) => {
   })
 })
 
-app.post('/campgrounds/:id/comments', (req, res) => {
+app.post('/campgrounds/:id/comments', isLoggedIn, (req, res) => {
   // Lookup campground using id
   var id = req.params.id
   Campground.findById(id, (err, campground) => {
@@ -165,6 +165,16 @@ app.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/campgrounds')
 })
+
+
+
+// Authentication check function
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  res.redirect('/login')
+}
 
 
 var PORT = 3000
