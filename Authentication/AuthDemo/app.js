@@ -73,6 +73,12 @@ app.post('/login', passport.authenticate('local', {
   res.send(req.body)
 })
 
+// Handle logout
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/')
+})
+
 
 
 var PORT = 3000
