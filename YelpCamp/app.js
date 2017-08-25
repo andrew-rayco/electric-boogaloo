@@ -160,6 +160,13 @@ app.post('/login', passport.authenticate('local', {
 }), (req, res) => {
 })
 
+// Logout route
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/campgrounds')
+})
+
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('YelpCamp is alive on port', PORT)
