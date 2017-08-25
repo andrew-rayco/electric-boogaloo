@@ -142,6 +142,7 @@ app.post('/register', (req, res) => {
       return res.render('register')
     }
     passport.authenticate('local')(req, res, () => {
+      console.log(user)
       res.redirect('/campgrounds')
     })
   })
