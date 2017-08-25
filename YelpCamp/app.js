@@ -148,6 +148,20 @@ app.post('/register', (req, res) => {
   })
 })
 
+// Show the login form
+app.get('/login', (req, res) => {
+  res.render('login')
+})
+
+// Handle the login logic
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/campgrounds',
+  failureRedirect: '/login'
+}), (req, res) => {
+  console.log(req.body)
+  res.redirect('/login')
+})
+
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
   console.log('YelpCamp is alive on port', PORT)
