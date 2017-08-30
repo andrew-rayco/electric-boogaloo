@@ -62,7 +62,7 @@ router.get('/:id', (req, res) => {
 })
 
 // EDIT campground route
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', checkCampgroundOwnership, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err) {
       console.log(err)
@@ -95,13 +95,33 @@ router.delete('/:id', (req, res) => {
   })
 })
 
-
+// Middleware
 // Authentication check function
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   }
   res.redirect('/login')
+}
+
+// Check campground ownership
+function checkCampgroundOwnership(req, res, next) {
+  if (req.isAuthenticated()) {
+    Campground.findById(req.params.id, (err, foundCampground) => {
+      if (err) {
+        console.log(err)
+        res.redirect('back')
+      } else {
+        if (foundCampground.author.id.equals(req.user._id)) {
+          next()
+        } else {
+          res.redirect('back')
+        }
+      }
+    })
+  } else {
+    res.redirect('back')
+  }
 }
 
 module.exports = router
