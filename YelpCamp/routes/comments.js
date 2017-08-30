@@ -76,8 +76,9 @@ router.delete('/:comment_id', (req, res) => {
     if (err) {
       console.log(err)
       res.redirect('back')
+    } else {
+      res.redirect('/campgrounds/' + req.params.id)
     }
-    res.redirect('back')
   })
 })
 
