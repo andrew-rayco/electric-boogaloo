@@ -70,6 +70,17 @@ router.put('/:comment_id', (req, res) => {
   })
 })
 
+// Comments destroy route
+router.delete('/:comment_id', (req, res) => {
+  Comment.findByIdAndRemove(req.params.comment_id, (err) => {
+    if (err) {
+      console.log(err)
+      res.redirect('back')
+    }
+    res.redirect('back')
+  })
+})
+
 // Middleware
 // Authentication check function
 function isLoggedIn(req, res, next) {
