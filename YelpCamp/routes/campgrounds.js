@@ -73,6 +73,15 @@ router.get('/:id/edit', (req, res) => {
 })
 
 // UPDATE campground route
+router.put('/:id', (req, res) => {
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.redirect('/campgrounds/' + req.params.id)
+    }
+  })
+})
 
 // Authentication check function
 function isLoggedIn(req, res, next) {
