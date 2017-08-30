@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var passport = require('passport')
 var LocalStrategy = require('passport-local')
+var methodOverride = require('method-override')
 
 var Campground = require('./models/campground')
 var Comment = require('./models/comment')
@@ -19,6 +20,7 @@ mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
 mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + '/public'))
+app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 // seedDB() // seed the database
 
