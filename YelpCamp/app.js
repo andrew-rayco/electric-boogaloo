@@ -13,7 +13,6 @@ var campgroundRoutes = require('./routes/campgrounds')
 var commentRoutes = require('./routes/comments')
 var authRoutes = require('./routes/auth')
 
-
 var app = express()
 
 mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
@@ -21,14 +20,10 @@ mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + '/public'))
 app.set('view engine', 'ejs')
-seedDB()
+// seedDB() // seed the database
 
 // PASSPORT CONFIGURATION
-app.use(require('express-session')({
-  secret: "Be hearty in your approbation and lavish in your praise.",
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(require('express-session')({secret: "Be hearty in your approbation and lavish in your praise.", resave: false, saveUninitialized: false}))
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
@@ -44,7 +39,6 @@ app.use((req, res, next) => {
 app.use(authRoutes)
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
-
 
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
