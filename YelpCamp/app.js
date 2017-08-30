@@ -32,6 +32,11 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+// Middleware to make user object available to all views (for nav header login/out)
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user
+  next()
+})
 
 app.get('/', (req, res) => {
   // res.render('landing')
@@ -45,7 +50,7 @@ app.get('/campgrounds', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render('campgrounds/index', { campgrounds: allCampgrounds })
+      res.render('campgrounds/index', { campgrounds: allCampgrounds, currentUser: req.user })
     }
   })
 })
@@ -88,7 +93,7 @@ app.get('/campgrounds/:id', (req, res) => {
 // COMMENTS ROUTES
 // ======================================
 
-app.get('/campgrounds/:id/comments/new', (req, res) => {
+app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res) => {
   var id = req.params.id
   Campground.findById(id, (err, campground) => {
     if (err) {
@@ -99,7 +104,7 @@ app.get('/campgrounds/:id/comments/new', (req, res) => {
   })
 })
 
-app.post('/campgrounds/:id/comments', (req, res) => {
+app.post('/campgrounds/:id/comments', isLoggedIn, (req, res) => {
   // Lookup campground using id
   var id = req.params.id
   Campground.findById(id, (err, campground) => {
@@ -159,6 +164,23 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), (req, res) => {
 })
+
+// Logout route
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/campgrounds')
+})
+
+
+
+// Authentication check function
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  res.redirect('/login')
+}
+
 
 var PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
