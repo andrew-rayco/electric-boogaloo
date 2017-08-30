@@ -37,6 +37,8 @@ passport.deserializeUser(User.deserializeUser())
 // Middleware to make user object available to all views (for nav header login/out)
 app.use((req, res, next) => {
   res.locals.currentUser = req.user
+  res.locals.error = req.flash('error')
+  res.locals.success = req.flash('success')
   next()
 })
 

@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
 
 // Show the login form
 router.get('/login', (req, res) => {
-  res.render('login', {message: req.flash('error')})
+  res.render('login')
 })
 
 // Handle the login logic
@@ -43,6 +43,7 @@ router.post('/login', passport.authenticate('local', {
 // Logout route
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success', 'Logged you out')
   res.redirect('/campgrounds')
 })
 
