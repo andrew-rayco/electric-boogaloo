@@ -5,8 +5,8 @@ var User = require('../models/user')
 
 // Root route
 router.get('/', (req, res) => {
-  // res.render('landing')
-  res.redirect('/campgrounds')
+  res.render('landing')
+  // res.redirect('/campgrounds')
 })
 
 // Show the register form
