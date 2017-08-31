@@ -15,9 +15,9 @@ function isLoggedIn(req, res, next) {
 function checkCampgroundOwnership(req, res, next) {
   if (req.isAuthenticated()) {
     Campground.findById(req.params.id, (err, foundCampground) => {
-      if (err) {
+      if (err || foundCampground == undefined) {
         req.flash('error', 'Campground not found')
-        res.redirect('back')
+        return res.redirect('back')
       } else {
         if (foundCampground.author.id.equals(req.user._id)) {
           next()
@@ -37,7 +37,7 @@ function checkCampgroundOwnership(req, res, next) {
 function checkCommentOwnership(req, res, next) {
   if (req.isAuthenticated()) {
     Comment.findById(req.params.comment_id, (err, foundComment) => {
-      if (err) {
+      if (err || foundComment == undefined) {
         console.log(err)
         res.redirect('back')
       } else {

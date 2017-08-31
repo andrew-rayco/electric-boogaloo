@@ -55,22 +55,24 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 router.get('/:id', (req, res) => {
   var id = req.params.id
   Campground.findById(id).populate('comments').exec((err, selectedCampground) => {
-    if (err) {
+    if (err || selectedCampground == undefined) {
       console.log(err);
-    } else {
-      res.render('campgrounds/show', {campground: selectedCampground})
+      req.flash('error', 'Sorry, that campground does not exist')
+      return res.redirect('/campgrounds')
     }
+    res.render('campgrounds/show', {campground: selectedCampground})
   })
 })
 
 // EDIT campground route
 router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
-    if (err) {
+    if (err || foundCampground == undefined) {
       console.log(err)
-    } else {
-      res.render('campgrounds/edit', {campground: foundCampground})
+      req.flash('error', 'Sorry that campground does not exist')
+      return res.redirect('/campgrounds')
     }
+    res.render('campgrounds/edit', {campground: foundCampground})
   })
 })
 
