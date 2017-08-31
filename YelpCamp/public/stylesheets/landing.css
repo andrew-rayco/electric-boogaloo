@@ -40,22 +40,22 @@ body {
 }
 
 .slideshow li:nth-child(1) {
-  background-image: url('/images/dino-reichmuth-97252.jpg')
+  background-image: url('/images/camping00.jpg')
 }
 .slideshow li:nth-child(2) {
-  background-image: url('/images/lexi-ruskell-217652.jpg');
+  background-image: url('/images/camping01.jpg');
   animation-delay: 10s;
 }
 .slideshow li:nth-child(3) {
-  background-image: url('/images/pablo-garcia-saldana-275391.jpg');
+  background-image: url('/images/camping02.jpg');
   animation-delay: 20s;
 }
 .slideshow li:nth-child(4) {
-  background-image: url('/images/teddy-kelley-194162.jpg');
+  background-image: url('/images/camping03.jpg');
   animation-delay: 30s;
 }
 .slideshow li:nth-child(5) {
-  background-image: url('/images/zach-betten-40145.jpg');
+  background-image: url('/images/camping04.jpg');
   animation-delay: 40s;
 }
 
