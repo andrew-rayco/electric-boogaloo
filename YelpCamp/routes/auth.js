@@ -5,8 +5,8 @@ var User = require('../models/user')
 
 // Root route
 router.get('/', (req, res) => {
-  // res.render('landing')
-  res.redirect('/campgrounds')
+  res.render('landing')
+  // res.redirect('/campgrounds')
 })
 
 // Show the register form
@@ -19,11 +19,11 @@ router.post('/register', (req, res) => {
   var newUser = new User({username: req.body.username})
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      console.log(err.message)
-      return res.render('register')
+      console.log(err)
+      return res.render('register', {'error': err.message})
     }
     passport.authenticate('local')(req, res, () => {
-      console.log(user)
+      req.flash('success', 'Welcome to YelpCamp. Nice to meet you ' + user.username)
       res.redirect('/campgrounds')
     })
   })
@@ -43,6 +43,7 @@ router.post('/login', passport.authenticate('local', {
 // Logout route
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success', 'Logged you out')
   res.redirect('/campgrounds')
 })
 
