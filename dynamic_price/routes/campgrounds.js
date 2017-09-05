@@ -24,7 +24,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
   var name = req.body.name
   var image = req.body.image
   var description = req.body.description
-  var price = req.body.price
+  var price = Number(req.body.price).toFixed(2)
   var author = {
     id: req.user._id,
     username: req.user.username
@@ -80,6 +80,9 @@ router.get('/:id/edit', middleware.checkCampgroundOwnership, (req, res) => {
 
 // UPDATE campground route
 router.put('/:id', middleware.checkCampgroundOwnership, (req, res) => {
+  console.log(req.body.campground)
+  req.body.campground.price = Number(req.body.campground.price).toFixed(2)
+  console.log(req.body.campground)
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
     if (err) {
       console.log(err)
