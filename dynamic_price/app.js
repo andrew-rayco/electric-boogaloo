@@ -18,7 +18,7 @@ var campgroundRoutes = require('./routes/campgrounds'),
 var app = express()
 
 mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
-mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
+mongoose.connect('mongodb://localhost/yelp_camp_dyn_price', {useMongoClient: true})
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + '/public'))
 app.use(methodOverride('_method'))
