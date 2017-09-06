@@ -19,7 +19,7 @@ var app = express()
 
 mongoose.Promise = global.Promise //mpromise is deprecated, use global instead
 // mongoose.connect('mongodb://localhost/yelp_camp', {useMongoClient: true})
-// mongoose.connect('mongodb://andy:electric2boogaloo@ds153815.mlab.com:53815/boocamp', {useMongoClient: true})
+// mongoose.connect('mongodb://<username>:<password>@ds153815.mlab.com:53815/boocamp', {useMongoClient: true})
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}, (err, db) => {
   if (err) {
     console.log('Unable to connect to the server. Please start the server. Error:', err, 'DATABASEURL:', process.env.DATABASEURL)
